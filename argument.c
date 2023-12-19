@@ -21,7 +21,7 @@ char *validate_arguments(const int argc, char **argv) {
 	//argument string length (filename length).
 	int filename_len = strlen(argv[i]);
 
-	//check if file extension is ".txt"
+	//if file extension is ".txt", file's valid and vice-versa.
 	if(argv[i][filename_len - 1] == 't'
 		&& argv[i][filename_len - 2] == 'x'
 		&& argv[i][filename_len - 3] == 't'
@@ -36,10 +36,31 @@ char *validate_arguments(const int argc, char **argv) {
 	//check duplicates of ".txt" only.
 	if(result[i]) {
 	    for(int j = i + 1; j < argc; ++j) {
+		//if duplicate, mark it as invalid.
 		if(strcmp(argv[i], argv[j]) == 0) {
 		    result[j] = 0;
 		}
 	    }
+	}
+    }
+
+    //check for empty files.
+    for(int i = 0; i < argc; ++i) {
+	//check valid files only (.txt files that aren't duplicates).
+	if(result[i]) {
+	    //open the file.
+	    FILE *fptr = fopen(argv[i], "rb");
+
+	    //read one byte.
+	    char c;
+	    fread(&c, 1, 1, fptr);
+
+	    //if empty, mark it as invalid.
+	    if(feof(fptr))
+		result[i] = 0;
+
+	    //close file.
+	    fclose(fptr);
 	}
     }
 
