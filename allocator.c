@@ -1,6 +1,5 @@
 #include "allocator.h"
 #include <assert.h>
-#include <stdio.h>
 
 //memory tracker list head.
 static Alloc_Mem_List *head = NULL;
@@ -47,7 +46,6 @@ void *allocate_memory(const size_t n_bytes) {
 	--alloc_attempt;
     }
 
-    printf("Allocated memory: %p of size %zu\n", mem_ptr, n_bytes);
     return mem_ptr;
 }
 
@@ -65,7 +63,6 @@ void free_memory(void *mem) {
     while(trav) {
 	//check for mem. match
 	if(trav->mem == mem) {
-	    printf("Freeing %p\n", trav->mem);
 	    //release memory.
 	    free(trav->mem);
 
@@ -76,7 +73,6 @@ void free_memory(void *mem) {
 		head = NULL;
 	    }
 
-	    printf("Freeing %p\n", trav->mem);
 	    //free traverser.
 	    free(trav);
 
@@ -133,11 +129,9 @@ void free_all_memory() {
 	//increment traverser.
 	trav = trav->next;
 
-	printf("Freeing %p\n", foll->mem);
 	//release memory inside the follower.
 	free(foll->mem);
 
-	printf("Freeing %p\n", foll);
 	//release the follower itself.
 	free(foll);
     }
