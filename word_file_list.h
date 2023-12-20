@@ -5,7 +5,7 @@
 
 typedef struct _Word_File_List {
     char filename[FILENAME_LENGTH_MAX];
-    unsigned int word_count;
+    unsigned int word_repetetion_count;
     struct _Word_File_List *next;
 } Word_File_List;
 

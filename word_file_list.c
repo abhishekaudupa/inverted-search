@@ -45,7 +45,7 @@ void insert_in_word_file_list(const char *const filename, Word_File_List **head)
 	//if match
 	if(cmp == 0) {
 	    //increase word count.
-	    ++(trav->word_count);
+	    ++(trav->word_repetetion_count);
 
 	    return;
 	}
@@ -110,7 +110,7 @@ Word_File_List *allocate_word_file_list_node(const char *const filename) {
 
     //populate it.
     strcpy(new_word_file->filename, filename);
-    new_word_file->word_count = 1;
+    new_word_file->word_repetetion_count = 1;
 
     //set its next pointer.
     new_word_file->next = NULL;
@@ -132,7 +132,7 @@ void print_word_file_list(Word_File_List *const head) {
     //traverse
     while(trav) {
 	//print details.
-	printf("       %s -> %d\n", trav->filename, trav->word_count);
+	printf("       %s -> %d\n", trav->filename, trav->word_repetetion_count);
 
 	//move on.
 	trav = trav->next;
