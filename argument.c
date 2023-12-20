@@ -51,6 +51,13 @@ char *validate_arguments(const int argc, char **argv) {
 	    //open the file.
 	    FILE *fptr = fopen(argv[i], "rb");
 
+	    //check file validity.
+	    if(!fptr) {
+		//file doesn't exist or something's wrong with it.
+		result[i] = 0;
+		continue;
+	    }
+
 	    //read one byte.
 	    char c;
 	    fread(&c, 1, 1, fptr);
