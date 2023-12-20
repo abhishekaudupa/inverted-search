@@ -13,4 +13,10 @@ void index_word(const char *const filename, const char *const word_buffer, Word_
 
 char get_word_insertion_index(const char c);
 
+void insert_at_index(const char *const filename, const char insertion_index, const char *const word_buffer, Word_List_Table *const index_table);
+
+Word_List_Table *create_table();
+
+void print_table(Word_List_Table *const index_table);
+
 #endif
