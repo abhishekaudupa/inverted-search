@@ -59,8 +59,10 @@ Word_List_Table *create_table() {
     Word_List_Table *index_table = get_memory(sizeof(*index_table));
 
     //set table contents to NULL.
-    for(int i = 0; i < HASH_TABLE_SIZE; ++i)
-	(index_table->table)[i] = NULL;
+    for(int i = 0; i < HASH_TABLE_SIZE; ++i) {
+	((index_table->table)[i]).word_list_head = NULL;
+	((index_table->table)[i]).word_count = 0;
+    }
 
     return index_table;
 }
@@ -73,12 +75,10 @@ void print_table(Word_List_Table *const index_table) {
     //traverse each index.
     for(int i = 0; i < HASH_TABLE_SIZE; ++i) {
 	//get head of the word list in that index.
-	Word_List_Node *head = (index_table->table)[i];
+	Word_List_Header *header = index_table->table + i;
 
-	if(head) {
-	    printf("Index %d\n", i);
-	    //print the word list.
-	    print_word_list(head);
-	}
+	printf("Index %d\n", i);
+	//print the word list.
+	print_word_list(header);
     }
 }

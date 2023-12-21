@@ -9,13 +9,13 @@
    This either adds a new file node or updates the word count in a node if
    the filename matches it.
  */
-void insert_in_word_file_list(const char *const filename, Word_File_List_Node **head) {
+void insert_in_word_file_list(const char *const filename, Word_File_List_Header *const header) {
     //design time check.
     assert(filename);
-    assert(head);
+    assert(header);
 
     //if list is empty.
-    if(!*head) {
+    if(!(header->word_file_list_head)) {
 	//get a new file node.
 	Word_File_List_Node *new_file_entry = allocate_word_file_list_node(filename);
 
@@ -26,7 +26,10 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Node **
 	}
 
 	//set head to the new node.
-	*head = new_file_entry;
+	(header->word_file_list_head) = new_file_entry;
+
+	//set file count.
+	header->file_count = 1;
 
 	return;
     }
@@ -34,7 +37,7 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Node **
     //if list isn't empty, search. Go below.
 
     //get a traverser and follower.
-    Word_File_List_Node *trav = *head;
+    Word_File_List_Node *trav = header->word_file_list_head;
     Word_File_List_Node *foll = NULL;
 
     //traverse
@@ -70,10 +73,13 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Node **
 		return;
 	    } else {	//trav is head node.
 		//insert new file before head.
-		new_file_entry->next = *head;
+		new_file_entry->next = header->word_file_list_head;
 
 		//make new file the new head.
-		*head = new_file_entry;
+		header->word_file_list_head = new_file_entry;
+
+		//increment file count.
+		++(header->file_count);
 
 		return;
 	    }
@@ -91,6 +97,9 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Node **
 
     //make it the last node.
     foll->next = new_file_entry;
+
+    //increment file count.
+    ++(header->file_count);
 
 }
 
@@ -121,13 +130,13 @@ Word_File_List_Node *allocate_word_file_list_node(const char *const filename) {
 /*
    Function to print list of files along with the word count.
  */
-void print_word_file_list(Word_File_List_Node *const head) {
+void print_word_file_list(Word_File_List_Header *const header) {
 
     //design time check.
-    assert(head);
+    assert(header);
 
     //get a traverser.
-    Word_File_List_Node *trav = head;
+    Word_File_List_Node *trav = header->word_file_list_head;
 
     //traverse
     while(trav) {
@@ -137,4 +146,18 @@ void print_word_file_list(Word_File_List_Node *const head) {
 	//move on.
 	trav = trav->next;
     }
+}
+
+/*
+   Function to create a file list header.
+ */
+Word_File_List_Header create_word_file_list_header() {
+    //create a header variable.
+    Word_File_List_Header word_file_list_header;
+
+    //init the header
+    word_file_list_header.word_file_list_head = NULL;
+    word_file_list_header.file_count = 0;
+
+    return word_file_list_header;
 }

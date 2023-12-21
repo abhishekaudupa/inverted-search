@@ -4,14 +4,14 @@
 #include "allocator.h"
 #include <string.h>
 
-void insert_in_word_list(const char *const filename, const char *const word_buffer, Word_List_Node **head) {
+void insert_in_word_list(const char *const filename, const char *const word_buffer, Word_List_Header *const header) {
     //design-time check.
     assert(filename);
     assert(word_buffer);
-    assert(head);
+    assert(header);
 
     //check if the list is empty.
-    if(!*head) {
+    if(!(header->word_list_head)) {
 	//allocate a Word_List_Node node.
 	Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
 
@@ -21,7 +21,10 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 	}
 
 	//set head to it.
-	*head = new_word;
+	header->word_list_head = new_word;
+
+	//set word count.
+	header->word_count = 1;
 
 	return;
     }
@@ -29,7 +32,7 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
     //traverse list if list isn't empty. Go below.
 
     //get a traverser and follower.
-    Word_List_Node *trav = *head;
+    Word_List_Node *trav = header->word_list_head;
     Word_List_Node *foll = NULL;
 
     //traverse
@@ -40,13 +43,22 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 	//there's a match.
 	if(cmp == 0) {
 	    //update count against the file.
-	    insert_in_word_file_list(filename, &(trav->file_list_head));
+	    insert_in_word_file_list(filename, &(trav->file_list_header));
 	    return;
-	} else if(cmp < 0) {
+	}
+
+	if(cmp < 0) {
 	    //insert word before current node.
-	    
+
 	    //allocate a Word_List_Node node.
 	    Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
+
+	    //check allocation.
+	    if(!new_word)
+		return;
+
+	    //increment word count.
+	    ++(header->word_count);
 
 	    //trav is non-head node.
 	    if(foll) {
@@ -56,12 +68,13 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 
 		return;
 	    } else {	//trav is head node.
-		//make new node the head.
-		new_word->next = *head;
-		*head = new_word;
+			//make new node the head.
+		new_word->next = header->word_list_head;
+		header->word_list_head = new_word;
 
 		return;
 	    }
+
 	}
 
 	//move forward.
@@ -70,13 +83,19 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
     }
 
     //we'll have to inser the word in the end of list.
-    
+
     //allocate a Word_List_Node node.
     Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
+    
+    //check allocation.
+    if(!new_word)
+	return;
+
+    //increment word count.
+    ++(header->word_count);
 
     //make it the foll's next node.
     foll->next = new_word;
-
 }
 
 /*
@@ -95,10 +114,10 @@ Word_List_Node *allocate_word_list_node(const char *const word_buffer, const cha
 
     //populate it.
     strcpy(new_word->word, word_buffer);
-    new_word->file_list_head = NULL;
+    new_word->file_list_header = create_word_file_list_header();
 
     //insert the filename.
-    insert_in_word_file_list(filename, &(new_word->file_list_head));
+    insert_in_word_file_list(filename, &(new_word->file_list_header));
 
     //set its next pointer.
     new_word->next = NULL;
@@ -106,10 +125,13 @@ Word_List_Node *allocate_word_list_node(const char *const word_buffer, const cha
     return new_word;
 }
 
-void print_word_list(Word_List_Node *const head) {
+void print_word_list(const Word_List_Header *const header) {
+
+    //design time check.
+    assert(header);
 
     //exit if list is empty.
-    if(!head) {
+    if(!(header->word_list_head)) {
 	fprintf(stderr, "    Word List Empty.\n");
 	return;
     }
@@ -117,7 +139,7 @@ void print_word_list(Word_List_Node *const head) {
     //proceed otherwise.
 
     //get a traverser.
-    Word_List_Node *trav = head;
+    Word_List_Node *trav = header->word_list_head;
 
     //traverse.
     while(trav) {
@@ -125,9 +147,23 @@ void print_word_list(Word_List_Node *const head) {
 	printf("    [%s]\n", trav->word);
 
 	//print the files in which it appears.
-	print_word_file_list(trav->file_list_head);
+	print_word_file_list(&(trav->file_list_header));
 
 	//move on.
 	trav = trav->next;
     }
+}
+
+/*
+   Function to create a word list header.
+ */
+Word_List_Header create_word_list_header() {
+    //crete the return variable.
+    Word_List_Header word_list_header;
+
+    //init the header.
+    word_list_header.word_list_head = NULL;
+    word_list_header.word_count = 0;
+
+    return word_list_header;
 }

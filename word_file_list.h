@@ -14,10 +14,12 @@ typedef struct _Word_File_List_Header {
     unsigned int file_count;
 } Word_File_List_Header;
 
-void insert_in_word_file_list(const char *const filename, Word_File_List_Node **head);
+void insert_in_word_file_list(const char *const filename, Word_File_List_Header *const header);
 
 Word_File_List_Node *allocate_word_file_list_node(const char *const filename);
 
-void print_word_file_list(Word_File_List_Node *const head);
+void print_word_file_list(Word_File_List_Header *const header);
+
+Word_File_List_Header create_word_file_list_header();
 
 #endif
