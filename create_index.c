@@ -57,7 +57,7 @@ void index_file_contents(const char *const filename, FILE *const fptr, Word_List
 	char word[WORD_LENGTH_MAX];
 
 	//read an alphanumeric word from file into the buffer.
-	fscanf(fptr, "%50[a-zA-Z0-9']", word);
+	fscanf(fptr, "%50s", word);
 
 	//if there was a read error, exit function.
 	if(ferror(fptr)) {
@@ -72,8 +72,5 @@ void index_file_contents(const char *const filename, FILE *const fptr, Word_List
 	//index words with more than 1 letter.
 	if(word[1])
 	    index_word(filename, word, index_table);
-
-	//discard special characters.
-	fscanf(fptr, "%[^a-zA-Z0-9]", word);
     }
 }
