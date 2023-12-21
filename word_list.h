@@ -11,6 +11,11 @@ typedef struct _Word_List {
     struct _Word_List *next;
 } Word_List;
 
+typedef struct _Word_List_Header {
+    Word_List *word_list_head;
+    unsigned int word_count;
+} Word_List_Header;
+
 void insert_in_word_list(const char *const filename, const char *const word_buffer, Word_List **head);
 
 Word_List *allocate_word_list_node(const char *const word_buffer, const char *const filename);

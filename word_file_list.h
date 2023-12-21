@@ -9,6 +9,11 @@ typedef struct _Word_File_List {
     struct _Word_File_List *next;
 } Word_File_List;
 
+typedef struct _Word_File_List_Header {
+    Word_File_List *word_file_list_head;
+    unsigned int file_count;
+} Word_File_List_Header;
+
 void insert_in_word_file_list(const char *const filename, Word_File_List **head);
 
 Word_File_List *allocate_word_file_list_node(const char *const filename);
