@@ -6,6 +6,12 @@
 
 int main(int argc, char **argv) {
 
+    //check for input files.
+    if(argc == 1) {
+	fprintf(stderr, "Input atleast 1 filename to index.\n");
+	return 1;
+    }
+
     //validate arguments and collect the validation array.
     char *arg_val_array = validate_arguments(argc, argv);
 
