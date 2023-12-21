@@ -73,7 +73,7 @@ void print_table(Word_List_Table *const index_table) {
     //traverse each index.
     for(int i = 0; i < HASH_TABLE_SIZE; ++i) {
 	//get head of the word list in that index.
-	Word_List *head = (index_table->table)[i];
+	Word_List_Node *head = (index_table->table)[i];
 
 	if(head) {
 	    printf("Index %d\n", i);

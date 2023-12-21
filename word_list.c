@@ -4,7 +4,7 @@
 #include "allocator.h"
 #include <string.h>
 
-void insert_in_word_list(const char *const filename, const char *const word_buffer, Word_List **head) {
+void insert_in_word_list(const char *const filename, const char *const word_buffer, Word_List_Node **head) {
     //design-time check.
     assert(filename);
     assert(word_buffer);
@@ -12,8 +12,8 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 
     //check if the list is empty.
     if(!*head) {
-	//allocate a Word_List node.
-	Word_List *new_word = allocate_word_list_node(word_buffer, filename);
+	//allocate a Word_List_Node node.
+	Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
 
 	if(!new_word) {
 	    fprintf(stderr, "Memory allocation failed for inserting %s.\n", word_buffer);
@@ -29,8 +29,8 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
     //traverse list if list isn't empty. Go below.
 
     //get a traverser and follower.
-    Word_List *trav = *head;
-    Word_List *foll = NULL;
+    Word_List_Node *trav = *head;
+    Word_List_Node *foll = NULL;
 
     //traverse
     while(trav) {
@@ -45,8 +45,8 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 	} else if(cmp < 0) {
 	    //insert word before current node.
 	    
-	    //allocate a Word_List node.
-	    Word_List *new_word = allocate_word_list_node(word_buffer, filename);
+	    //allocate a Word_List_Node node.
+	    Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
 
 	    //trav is non-head node.
 	    if(foll) {
@@ -71,8 +71,8 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 
     //we'll have to inser the word in the end of list.
     
-    //allocate a Word_List node.
-    Word_List *new_word = allocate_word_list_node(word_buffer, filename);
+    //allocate a Word_List_Node node.
+    Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
 
     //make it the foll's next node.
     foll->next = new_word;
@@ -80,14 +80,14 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 }
 
 /*
-   Function to get a dynamically allocated Word_List node.
+   Function to get a dynamically allocated Word_List_Node node.
  */
-Word_List *allocate_word_list_node(const char *const word_buffer, const char *const filename) {
+Word_List_Node *allocate_word_list_node(const char *const word_buffer, const char *const filename) {
     //design time check.
     assert(word_buffer);
 
-    //allocate a Word_List node.
-    Word_List *new_word = get_memory(sizeof(*new_word));
+    //allocate a Word_List_Node node.
+    Word_List_Node *new_word = get_memory(sizeof(*new_word));
 
     //check allocation.
     if(!new_word)
@@ -106,7 +106,7 @@ Word_List *allocate_word_list_node(const char *const word_buffer, const char *co
     return new_word;
 }
 
-void print_word_list(Word_List *const head) {
+void print_word_list(Word_List_Node *const head) {
 
     //exit if list is empty.
     if(!head) {
@@ -117,7 +117,7 @@ void print_word_list(Word_List *const head) {
     //proceed otherwise.
 
     //get a traverser.
-    Word_List *trav = head;
+    Word_List_Node *trav = head;
 
     //traverse.
     while(trav) {

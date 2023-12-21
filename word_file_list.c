@@ -9,7 +9,7 @@
    This either adds a new file node or updates the word count in a node if
    the filename matches it.
  */
-void insert_in_word_file_list(const char *const filename, Word_File_List **head) {
+void insert_in_word_file_list(const char *const filename, Word_File_List_Node **head) {
     //design time check.
     assert(filename);
     assert(head);
@@ -17,7 +17,7 @@ void insert_in_word_file_list(const char *const filename, Word_File_List **head)
     //if list is empty.
     if(!*head) {
 	//get a new file node.
-	Word_File_List *new_file_entry = allocate_word_file_list_node(filename);
+	Word_File_List_Node *new_file_entry = allocate_word_file_list_node(filename);
 
 	//check allocation
 	if(!new_file_entry) {
@@ -34,8 +34,8 @@ void insert_in_word_file_list(const char *const filename, Word_File_List **head)
     //if list isn't empty, search. Go below.
 
     //get a traverser and follower.
-    Word_File_List *trav = *head;
-    Word_File_List *foll = NULL;
+    Word_File_List_Node *trav = *head;
+    Word_File_List_Node *foll = NULL;
 
     //traverse
     while(trav) {
@@ -52,8 +52,8 @@ void insert_in_word_file_list(const char *const filename, Word_File_List **head)
 
 	//not match. Insert filename before.
 	if(cmp < 0) {
-	    //get a new Word_File_List node.
-	    Word_File_List *new_file_entry = allocate_word_file_list_node(filename);
+	    //get a new Word_File_List_Node node.
+	    Word_File_List_Node *new_file_entry = allocate_word_file_list_node(filename);
 
 	    //check allocation.
 	    if(!new_file_entry) {
@@ -86,8 +86,8 @@ void insert_in_word_file_list(const char *const filename, Word_File_List **head)
 
     //we're here: insert file at the end of list.
     
-    //get a new Word_File_List node.
-    Word_File_List *new_file_entry = allocate_word_file_list_node(filename);
+    //get a new Word_File_List_Node node.
+    Word_File_List_Node *new_file_entry = allocate_word_file_list_node(filename);
 
     //make it the last node.
     foll->next = new_file_entry;
@@ -95,14 +95,14 @@ void insert_in_word_file_list(const char *const filename, Word_File_List **head)
 }
 
 /*
-   Function to get a dynamically allocated Word_List node.
+   Function to get a dynamically allocated Word_List_Node node.
  */
-Word_File_List *allocate_word_file_list_node(const char *const filename) {
+Word_File_List_Node *allocate_word_file_list_node(const char *const filename) {
     //design time check.
     assert(filename);
 
-    //allocate a Word_File_List node.
-    Word_File_List *new_word_file = get_memory(sizeof(*new_word_file));
+    //allocate a Word_File_List_Node node.
+    Word_File_List_Node *new_word_file = get_memory(sizeof(*new_word_file));
 
     //check allocation.
     if(!new_word_file)
@@ -121,13 +121,13 @@ Word_File_List *allocate_word_file_list_node(const char *const filename) {
 /*
    Function to print list of files along with the word count.
  */
-void print_word_file_list(Word_File_List *const head) {
+void print_word_file_list(Word_File_List_Node *const head) {
 
     //design time check.
     assert(head);
 
     //get a traverser.
-    Word_File_List *trav = head;
+    Word_File_List_Node *trav = head;
 
     //traverse
     while(trav) {
