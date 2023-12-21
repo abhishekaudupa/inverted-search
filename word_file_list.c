@@ -64,6 +64,9 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Header 
 		return;
 	    }
 
+	    //increment file count.
+	    ++(header->file_count);
+
 	    //trav isn't head node.
 	    if(foll) {
 		//insert new file before trav.
@@ -72,14 +75,12 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Header 
 
 		return;
 	    } else {	//trav is head node.
+
 		//insert new file before head.
 		new_file_entry->next = header->word_file_list_head;
 
 		//make new file the new head.
 		header->word_file_list_head = new_file_entry;
-
-		//increment file count.
-		++(header->file_count);
 
 		return;
 	    }
@@ -91,7 +92,7 @@ void insert_in_word_file_list(const char *const filename, Word_File_List_Header 
     }
 
     //we're here: insert file at the end of list.
-    
+
     //get a new Word_File_List_Node node.
     Word_File_List_Node *new_file_entry = allocate_word_file_list_node(filename);
 
@@ -125,27 +126,6 @@ Word_File_List_Node *allocate_word_file_list_node(const char *const filename) {
     new_word_file->next = NULL;
 
     return new_word_file;
-}
-
-/*
-   Function to print list of files along with the word count.
- */
-void print_word_file_list(Word_File_List_Header *const header) {
-
-    //design time check.
-    assert(header);
-
-    //get a traverser.
-    Word_File_List_Node *trav = header->word_file_list_head;
-
-    //traverse
-    while(trav) {
-	//print details.
-	printf("       %s -> %d\n", trav->filename, trav->word_repetetion_count);
-
-	//move on.
-	trav = trav->next;
-    }
 }
 
 /*

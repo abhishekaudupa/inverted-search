@@ -20,8 +20,6 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 
 Word_List_Node *allocate_word_list_node(const char *const word_buffer, const char *const filename);
 
-void print_word_list(const Word_List_Header *const header);
-
 Word_List_Header create_word_list_header();
 
 #endif

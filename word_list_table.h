@@ -17,6 +17,4 @@ void insert_at_index(const char *const filename, const char insertion_index, con
 
 Word_List_Table *create_table();
 
-void print_table(Word_List_Table *const index_table);
-
 #endif

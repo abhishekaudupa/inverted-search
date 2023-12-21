@@ -1,7 +1,7 @@
-database : driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o
-	gcc -Wall driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o -o database
+database : driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o display_index.o
+	gcc -Wall driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o display_index.o -o database
 
-driver.o : driver.c argument.o allocator.o word_list_table.o
+driver.o : driver.c argument.o allocator.o word_list_table.o create_index.o display_index.o
 	gcc -Wall -c driver.c -o driver.o
 
 argument.o : argument.c argument.h allocator.o
@@ -21,6 +21,9 @@ word_list.o : word_list.c word_list.h word_file_list.o allocator.o
 
 word_file_list.o : word_file_list.c word_file_list.h allocator.o
 	gcc -Wall -c word_file_list.c -o word_file_list.o
+
+display_index.o : display_index.c display_index.h word_file_list.o
+	gcc -Wall -c display_index.c -o display_index.o
 
 clean : 
 	rm *.o database

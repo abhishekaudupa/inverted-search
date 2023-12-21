@@ -3,6 +3,7 @@
 #include "create_index.h"
 #include "word_list_table.h"
 #include "allocator.h"
+#include "display_index.h"
 
 int main(int argc, char **argv) {
 
@@ -31,21 +32,21 @@ int main(int argc, char **argv) {
 
 	switch(choice) {
 	    case 1:
-		    //create the inverted index database.
-		    index_table = create_database(argc, argv, arg_val_array);
-		    break;
+		//create the inverted index database.
+		index_table = create_database(argc, argv, arg_val_array);
+		break;
 	    case 2:
-		    if(index_table) {
+		if(index_table) {
 		    //display database
-		    print_table(index_table);
-		    } else {
-			fprintf(stderr, "Index not yet created.\n");
-		    }
-		    break;
+		    display_database(index_table);
+		} else {
+		    fprintf(stderr, "Index not yet created.\n");
+		}
+		break;
 	    case 3:
-		    //exit program.
-		    free_all_memory();
-		    return 0;
+		//exit program.
+		free_all_memory();
+		return 0;
 	    default:
 		fprintf(stderr, "Invalid choice.\n");
 		break;

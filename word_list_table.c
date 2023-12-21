@@ -66,19 +66,3 @@ Word_List_Table *create_table() {
 
     return index_table;
 }
-
-void print_table(Word_List_Table *const index_table) {
-
-    //design time check.
-    assert(index_table);
-
-    //traverse each index.
-    for(int i = 0; i < HASH_TABLE_SIZE; ++i) {
-	//get head of the word list in that index.
-	Word_List_Header *header = index_table->table + i;
-
-	printf("Index %d\n", i);
-	//print the word list.
-	print_word_list(header);
-    }
-}

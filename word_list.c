@@ -54,8 +54,10 @@ void insert_in_word_list(const char *const filename, const char *const word_buff
 	    Word_List_Node *new_word = allocate_word_list_node(word_buffer, filename);
 
 	    //check allocation.
-	    if(!new_word)
+	    if(!new_word) {
+		fprintf(stderr, "Memory alloation for word insertion failed.\n");
 		return;
+	    }
 
 	    //increment word count.
 	    ++(header->word_count);
@@ -123,35 +125,6 @@ Word_List_Node *allocate_word_list_node(const char *const word_buffer, const cha
     new_word->next = NULL;
 
     return new_word;
-}
-
-void print_word_list(const Word_List_Header *const header) {
-
-    //design time check.
-    assert(header);
-
-    //exit if list is empty.
-    if(!(header->word_list_head)) {
-	fprintf(stderr, "    Word List Empty.\n");
-	return;
-    }
-
-    //proceed otherwise.
-
-    //get a traverser.
-    Word_List_Node *trav = header->word_list_head;
-
-    //traverse.
-    while(trav) {
-	//print the word.
-	printf("    [%s]\n", trav->word);
-
-	//print the files in which it appears.
-	print_word_file_list(&(trav->file_list_header));
-
-	//move on.
-	trav = trav->next;
-    }
 }
 
 /*
