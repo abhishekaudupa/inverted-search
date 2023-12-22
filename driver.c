@@ -24,32 +24,50 @@ int main(int argc, char **argv) {
 	printf("Select a choice:\n");
 	printf("1. Create Database\n");
 	printf("2. Display Database\n");
-	printf("3. Exit\n");
+	printf("3. Search Database\n");
+	printf("4. Save Database\n");
 	printf("choice: ");
 
 	int choice;
 	scanf("%d", &choice);
 
 	switch(choice) {
+
 	    case 1:
 		//create the inverted index database.
 		index_table = create_database(argc, argv, arg_val_array);
 		break;
+
 	    case 2:
-		if(index_table) {
-		    //display database
-		    display_database(index_table);
-		} else {
-		    fprintf(stderr, "Index not yet created.\n");
-		}
+		//display database
+		display_database(index_table);
 		break;
+
 	    case 3:
-		//exit program.
-		free_all_memory();
-		return 0;
+		//get the search word.
+		fprintf(stdout, "Enter the word to search: ");
+		char search_word[WORD_LENGTH_MAX];
+		scanf("%s", search_word);
+
+		//call the search function.
+		break;
+
+	    case 4:
+		//save the database into a file.
+		break;
+
 	    default:
 		fprintf(stderr, "Invalid choice.\n");
 		break;
 	}
+
+	//ask user choice to continue the program
+	fprintf(stdout, "Continue? Y/n: ");
+	while(getchar() != '\n');
+	char cont;
+	cont = getchar();
+
+	if(!(cont == 'Y' || cont == 'y'))
+	    break;
     }
 }
