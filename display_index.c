@@ -19,6 +19,9 @@ void display_database(const Word_List_Table *const index_table) {
 	//get the word list header pointer in that index.
 	const Word_List_Header *const header = index_table->table + i;
 
+	//print the index.
+	fprintf(stdout, "Index %d: %u words\n", i, header->word_count);
+
 	//print the list of words.
 	print_word_list(header);
     }
@@ -34,7 +37,7 @@ void print_word_list(const Word_List_Header *const header) {
 
     //exit if list is empty.
     if(!(header->word_list_head)) {
-	fprintf(stderr, "    Word List Empty.\n");
+	fprintf(stderr, "    No words.\n");
 	return;
     }
 
@@ -46,10 +49,16 @@ void print_word_list(const Word_List_Header *const header) {
     //traverse.
     while(trav) {
 	//print the word.
-	printf("    [%s]\n", trav->word);
+	fprintf(stdout, "    [%s]", trav->word);
+
+	//get the file list header.
+	Word_File_List_Header *header = &(trav->file_list_header);
+
+	//print the file count.
+	fprintf(stdout, ": %u files\n", header->file_count);
 
 	//print the files in which it appears.
-	print_word_file_list(&(trav->file_list_header));
+	print_word_file_list(header);
 
 	//move on.
 	trav = trav->next;
@@ -70,7 +79,7 @@ void print_word_file_list(Word_File_List_Header *const header) {
     //traverse
     while(trav) {
 	//print details.
-	printf("       %s -> %d\n", trav->filename, trav->word_repetetion_count);
+	fprintf(stdout, "       %s -> %d\n", trav->filename, trav->word_repetetion_count);
 
 	//move on.
 	trav = trav->next;
