@@ -79,7 +79,7 @@ void print_word_file_list(Word_File_List_Header *const header) {
     //traverse
     while(trav) {
 	//print details.
-	fprintf(stdout, "       %s -> %d\n", trav->filename, trav->word_repetetion_count);
+	fprintf(stdout, "       %s -> %d count\n", trav->filename, trav->word_repetetion_count);
 
 	//move on.
 	trav = trav->next;

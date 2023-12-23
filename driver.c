@@ -4,6 +4,7 @@
 #include "word_list_table.h"
 #include "allocator.h"
 #include "display_index.h"
+#include "search_database.h"
 
 int main(int argc, char **argv) {
 
@@ -26,6 +27,7 @@ int main(int argc, char **argv) {
 	printf("2. Display Database\n");
 	printf("3. Search Database\n");
 	printf("4. Save Database\n");
+	printf("5. Update Database\n");
 	printf("choice: ");
 
 	int choice;
@@ -44,16 +46,30 @@ int main(int argc, char **argv) {
 		break;
 
 	    case 3:
-		//get the search word.
-		fprintf(stdout, "Enter the word to search: ");
-		char search_word[WORD_LENGTH_MAX];
-		scanf("%s", search_word);
+		if(index_table) {
+		    //get the search word.
+		    fprintf(stdout, "Enter the word to search: ");
+		    char search_word[WORD_LENGTH_MAX];
+		    scanf("%s", search_word);
 
-		//call the search function.
+		    //call the search function.
+		    search_database(search_word, index_table);
+
+		} else {
+		    fprintf(stderr, "Database not created yet.\n");
+		}
 		break;
 
 	    case 4:
-		//save the database into a file.
+		if(index_table) {
+		    //save the database into a file.
+		} else {
+		    fprintf(stderr, "Database not created yet.\n");
+		}
+		break;
+
+	    case 5:
+		//update
 		break;
 
 	    default:
