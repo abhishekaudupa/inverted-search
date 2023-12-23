@@ -4,7 +4,7 @@
 #include "word_list_table.h"
 #include "allocator.h"
 #include "display_index.h"
-#include "search_database.h"
+#include "search_index.h"
 
 int main(int argc, char **argv) {
 

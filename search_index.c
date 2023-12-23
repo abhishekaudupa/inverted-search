@@ -1,4 +1,4 @@
-#include "search_database.h"
+#include "search_index.h"
 #include "display_index.h"
 #include <assert.h>
 #include <stdio.h>
