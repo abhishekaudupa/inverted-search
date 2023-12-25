@@ -1,5 +1,5 @@
-database : driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o display_index.o search_index.o
-	gcc -Wall driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o display_index.o search_index.o -o database
+database : driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o display_index.o search_index.o save_index.o
+	gcc -Wall driver.o argument.o allocator.o create_index.o word_list_table.o word_list.o word_file_list.o display_index.o search_index.o save_index.o -o database
 
 driver.o : driver.c argument.o allocator.o word_list_table.o create_index.o display_index.o
 	gcc -Wall -c driver.c -o driver.o
@@ -28,6 +28,9 @@ display_index.o : display_index.c display_index.h word_file_list.o
 search_index.o : search_index.c search_index.h word_list_table.o display_index.o
 	gcc -Wall -c search_index.c -o search_index.o
 
+save_index.o : save_index.c save_index.h word_list_table.o
+	gcc -Wall -c save_index.c -o save_index.o
+
 clean : 
-	rm *.o database
+	rm *.o database backup.txt
 	clear

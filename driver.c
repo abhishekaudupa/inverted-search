@@ -5,6 +5,7 @@
 #include "allocator.h"
 #include "display_index.h"
 #include "search_index.h"
+#include "save_index.h"
 
 int main(int argc, char **argv) {
 
@@ -63,6 +64,7 @@ int main(int argc, char **argv) {
 	    case 4:
 		if(index_table) {
 		    //save the database into a file.
+		    save_database(index_table);
 		} else {
 		    fprintf(stderr, "Database not created yet.\n");
 		}
