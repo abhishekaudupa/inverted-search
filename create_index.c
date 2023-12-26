@@ -2,6 +2,9 @@
 #include "create_index.h"
 #include <assert.h>
 
+#define STR2(x) #x
+#define STR(X) STR2(X)
+
 /*
    Driver function to created inverted index database.
    Calls other helper functions to read words in a file and index 'em.
@@ -57,7 +60,7 @@ void index_file_contents(const char *const filename, FILE *const fptr, Word_List
 	char word[WORD_LENGTH_MAX];
 
 	//read an alphanumeric word from file into the buffer.
-	fscanf(fptr, "%50s", word);
+	fscanf(fptr, "%"STR(FILENAME_LENGTH_MAX)"s", word);
 
 	//if there was a read error, exit function.
 	if(ferror(fptr)) {
@@ -69,8 +72,7 @@ void index_file_contents(const char *const filename, FILE *const fptr, Word_List
 	if(feof(fptr))
 	    break;
 
-	//index words with more than 1 letter.
-	if(word[1])
-	    index_word(filename, word, index_table);
+	//index word.
+	index_word(filename, word, index_table);
     }
 }
