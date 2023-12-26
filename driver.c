@@ -6,17 +6,9 @@
 #include "display_index.h"
 #include "search_index.h"
 #include "save_index.h"
+#include "update_index.h"
 
 int main(int argc, char **argv) {
-
-    //check for input files.
-    if(argc == 1) {
-	fprintf(stderr, "Input atleast 1 filename to index.\n");
-	return 1;
-    }
-
-    //validate arguments and collect the validation array.
-    char *arg_val_array = validate_arguments(argc, argv);
 
     //pointer to database index hash table.
     Word_List_Table *index_table = NULL;
@@ -37,6 +29,15 @@ int main(int argc, char **argv) {
 	switch(choice) {
 
 	    case 1:
+		//check for input files.
+		if(argc == 1) {
+		    fprintf(stderr, "Input atleast 1 filename to index.\n");
+		    return 1;
+		}
+
+		//validate arguments and collect the validation array.
+		char *arg_val_array = validate_arguments(argc, argv);
+
 		//create the inverted index database.
 		index_table = create_database(argc, argv, arg_val_array);
 		break;
@@ -71,7 +72,8 @@ int main(int argc, char **argv) {
 		break;
 
 	    case 5:
-		//update
+		//update database into memory.
+		update_database();
 		break;
 
 	    default:
