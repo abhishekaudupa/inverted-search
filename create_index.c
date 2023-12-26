@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "create_index.h"
 #include <assert.h>
 
@@ -54,13 +55,19 @@ void index_file_contents(const char *const filename, FILE *const fptr, Word_List
     //design time check.
     assert(fptr);
 
+    //filename length check.
+    if(strlen(filename) > FILENAME_LENGTH_MAX) {
+	fprintf(stderr, "Filename has to be atmost %d characters.\n", FILENAME_LENGTH_MAX);
+	return;
+    }
+
     //start reading words from file
     while(1) {
 	//get a buffer to store each word.
 	char word[WORD_LENGTH_MAX];
 
 	//read an alphanumeric word from file into the buffer.
-	fscanf(fptr, "%"STR(FILENAME_LENGTH_MAX)"s", word);
+	fscanf(fptr, "%"STR(WORD_LENGTH_MAX)"s", word);
 
 	//if there was a read error, exit function.
 	if(ferror(fptr)) {
