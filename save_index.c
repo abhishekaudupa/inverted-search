@@ -1,7 +1,11 @@
 #include "save_index.h"
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
+/*
+   Function to save the inverted index database into a backup file.
+ */
 void save_database(const Word_List_Table *const index_table) {
     //design time check
     assert(index_table);
@@ -21,7 +25,7 @@ void save_database(const Word_List_Table *const index_table) {
     //iterate through the table.
     for(int i = 0; i < HASH_TABLE_SIZE; ++i) {
 
-	//check if there is a word list in the index.
+	//check if there is atleast one word list in the index.
 	if(table[i].word_list_head) {
 
 	    //get a traverser for word list.
@@ -32,21 +36,28 @@ void save_database(const Word_List_Table *const index_table) {
 		//print start magic character.
 		fprintf(backup_file_ptr, "#");
 
-		//print the word.
-		fprintf(backup_file_ptr, "%d:%s:", i, word_trav->word);
+		//print the word into the backup file.
+		fprintf(backup_file_ptr, "%02d:%c:%s:", i, (char)strlen(word_trav->word), word_trav->word);
+
+		//alternative dump.
+		//fprintf(backup_file_ptr, "%02d:%s:", i, word_trav->word);
 
 		//get a traverser for file list.
 		Word_File_List_Node *file_trav = word_trav->file_list_header.word_file_list_head;
 
 		//traverse the file list.
-		while(file_trav) {
+		while(1) {
 
-		    //print the file.
-		    fprintf(backup_file_ptr, "%s:%d", file_trav->filename, file_trav->word_repetetion_count);
+		    //print the filename into the backup file.
+		    fprintf(backup_file_ptr, "%c:%s:%d", (char)strlen(file_trav->filename), file_trav->filename, file_trav->word_repetetion_count);
+
+		    //alternative dump.
+		    //fprintf(backup_file_ptr, "%s:%d", file_trav->filename, file_trav->word_repetetion_count);
 
 		    //goto next file.
 		    file_trav = file_trav->next;
 
+		    //append separator.
 		    if(file_trav)
 			fprintf(backup_file_ptr, ":");
 		    else
