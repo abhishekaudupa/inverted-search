@@ -8,6 +8,44 @@
 #include "save_index.h"
 #include "update_index.h"
 
+/*
+   DOCUMENTATION
+
+   SUMMARY:
+   This inverted index creation program reads each word in the input files, 
+   puts the words in a hash table along with the list of files in which they 
+   appear and the number of times they appear.
+
+   CREATING INDEX:
+   The hash table is an array of 27 cells, each of which store the linked 
+   list of words found in the input files. Cells 1 through 26 store the words 
+   that start with an English alphabet and cell 27 stores words that dont 
+   start with an English alphabet. Each cell has a list of words starting at 
+   the alphabet in the position represented by the cell number: cell 1 has 
+   words starting with an 'a' or 'A'. Words in the linked list are stored in 
+   alphabetical order. Each word in turn is associated with a linked list of 
+   files (along with the word's repetetion count in the said file) in which 
+   the word appears.
+
+   Once the database is created and stored in memory, it can be displayed 
+   or saved into a file.
+   
+
+   DISPLAYING:
+   The display program displays the index in which the word is stored along 
+   with the list of files and the repetion count in each file.
+
+   SAVING INTO FILE:
+   The save program puts each word into a struct and each file along with 
+   the repetetion count into another struct. These structs are written to 
+   the file in which the index is saved. Between each word+file list, a 
+   separator character (1 if there are more words, 0 if no more words) 
+   is appended.
+ */
+
+/*
+   The driver function to run the program.
+ */
 int main(int argc, char **argv) {
 
     //pointer to database index hash table.
@@ -72,8 +110,14 @@ int main(int argc, char **argv) {
 		break;
 
 	    case 5:
-		//update database into memory.
-		update_database();
+		if(!index_table) {
+		    //allot memory for the index table.
+		    index_table = create_table();
+
+		    //update database into memory.
+		    update_database(index_table);
+		}
+
 		break;
 
 	    default:

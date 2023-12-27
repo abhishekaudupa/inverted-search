@@ -4,6 +4,12 @@
 #include "allocator.h"
 #include <string.h>
 
+/*
+   Function to insert the given word in the word linked list.
+   This inserts a new word node if the word doesn't exist.
+   It calls other function to update the filelist for the file
+   in which the word appears.
+ */
 void insert_in_word_list(const char *const filename, const char *const word_buffer, Word_List_Header *const header) {
     //design-time check.
     assert(filename);

@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+   Function to search a given word in the index hash table.
+   If the word index is not empty, it calls other functions to 
+   search the word in word list.
+ */
 void search_database(const char *const word, const Word_List_Table *const index_table) {
     //design time check.
     assert(word);
@@ -21,6 +26,11 @@ void search_database(const char *const word, const Word_List_Table *const index_
     }
 }
 
+/*
+   Function to search for the file in the word linked list.
+   Once the word is found, it calls another function to print the file in which
+   it appears along with the repetetion count.
+ */
 void search_in_word_list(const char *const word, const Word_List_Header *const header) {
     //design time check.
     assert(word);
