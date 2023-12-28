@@ -33,78 +33,44 @@ void save_database(const Word_List_Table *const index_table) {
 
 	    //traverse the word list.
 	    while(word_trav) {
-		
-		//Word_Save_Format struct that goes into backup file.
-		Word_Save_Format word_save_format;
+		//print start magic character.
+		fprintf(backup_file_ptr, "#");
 
-		//save word metadata in the word save struct.
-		strcpy(word_save_format.word, word_trav->word);
-		word_save_format.file_count = word_trav->file_list_header.file_count;
+		//print the word into the backup file.
+		fprintf(backup_file_ptr, "%02d:%02hhd:%s:", i, (char)strlen(word_trav->word), word_trav->word);
 
-		//write the struct to backup file.
-		fwrite(&word_save_format, sizeof(word_save_format), 1, backup_file_ptr);
-
-		//file write error check.
-		if(feof(backup_file_ptr)) {
-		    fprintf(stderr, "File write failed.\n");
-		    return;
-		}
+		//alternative dump.
+		//fprintf(backup_file_ptr, "%02d:%s:", i, word_trav->word);
 
 		//get a traverser for file list.
 		Word_File_List_Node *file_trav = word_trav->file_list_header.word_file_list_head;
 
 		//traverse the file list.
-		while(file_trav) {
+		while(1) {
 
-		    //Word_File_Save_Format struct that goes into backup file.
-		    Word_File_Save_Format word_file_save_format;
+		    //print the filename into the backup file.
+		    fprintf(backup_file_ptr, "%02hhd:%s:%d", (char)strlen(file_trav->filename), file_trav->filename, file_trav->word_repetetion_count);
 
-		    //save file metadata to file save struct.
-		    strcpy(word_file_save_format.filename, file_trav->filename);
-		    word_file_save_format.word_repetetion_count = file_trav->word_repetetion_count;
-
-		    //write the struct to backup file.
-		    fwrite(&word_file_save_format, sizeof(word_file_save_format), 1, backup_file_ptr);
-
-		    //file write error check.
-		    if(feof(backup_file_ptr)) {
-			fprintf(stderr, "File write failed.\n");
-			return;
-		    }
+		    //alternative dump.
+		    //fprintf(backup_file_ptr, "%s:%d", file_trav->filename, file_trav->word_repetetion_count);
 
 		    //goto next file.
 		    file_trav = file_trav->next;
+
+		    //append separator.
+		    if(file_trav)
+			fprintf(backup_file_ptr, ":");
+		    else
+			break;
 		}
 
-		//write a spacer char. at the end of each word file list.
-		char c = 1;
-		fwrite(&c, sizeof(c), 1, backup_file_ptr);
-
-		//file write error check.
-		if(feof(backup_file_ptr)) {
-		    fprintf(stderr, "File write failed.\n");
-		    return;
-		}
+		//print end magic character.
+		fprintf(backup_file_ptr, "#\n");
 
 		//goto next word.
 		word_trav = word_trav->next;
 	    }
 	}
-    }
-
-    //overwrite end spacer character (0 to signify end).
-    char c = 0;
-
-    //seek to previous space character write position in file.
-    fseek(backup_file_ptr, ftell(backup_file_ptr) - 1, SEEK_SET);
-    
-    //overwrite a zero.
-    fwrite(&c, sizeof(c), 1, backup_file_ptr);
-
-    //file write error check.
-    if(feof(backup_file_ptr)) {
-	fprintf(stderr, "File write failed.\n");
-	return;
     }
 
     //close file.
