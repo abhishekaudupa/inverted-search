@@ -36,11 +36,16 @@
    with the list of files and the repetion count in each file.
 
    SAVING INTO FILE:
-   The save program puts each word into a struct and each file along with 
-   the repetetion count into another struct. These structs are written to 
-   the file in which the index is saved. Between each word+file list, a 
-   separator character (1 if there are more words, 0 if no more words) 
-   is appended.
+   Each word in the index is saved in a text file with the following format.
+   
+	#[INDEX_NO.,2 char]:[WORD_LENGTH, 2 char]:[WORD]:[FILE1_NAME_LENGTH, 2 char]:[FILENAME]:[WORD_COUNT]:...:[FILEN_NAME_LENGTH, 2 char]:[FILENAME]:[WORD_COUNT]#[nextline]
+
+	Example:
+	#24:04:you?:09:file1.txt:1:09:file2.txt:1#
+
+   UPDATE INDEX:
+   The backup file is read by the program and the hash table in the memory is updated with it's contents.
+
  */
 
 /*
